@@ -17,11 +17,12 @@ import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import { errorToast } from '../../../utils/customToast';
 
 const properties = [
-  { id: '1', name: 'Apartment', image: imageIndex.p1 },
-  { id: '2', name: 'House', image: imageIndex.p2 },
-  { id: '3', name: 'Townhouse', image: imageIndex.p4 },
-  { id: '4', name: 'Villa', image: imageIndex.ba2 },
+  { id: '1', name: 'Flat', image: imageIndex.p1 },
+  { id: '2', name: 'Apartment', image: imageIndex.p2 },
+  { id: '3', name: 'Hostel', image: imageIndex.p4 },
+  { id: '4', name: "PG's", image: imageIndex.ba2 },
 ];
+
 
 export default function PropertySelect() {
   const [selected, setSelected] = useState<string | null>(null);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,17 @@ import { useNavigation } from '@react-navigation/native';
 import ScreenNameEnum from '../../../../routes/screenName.enum';
  
 export default function PropertyDetailScreen() {
-  
+  const navigation = useNavigation();
+
+  // 🔹 Property Details Dynamic Object
+  const propertyDetails = {
+    furnishing: "Semi Furnished", // Furnished | Semi Furnished | Full Furnished
+    flatNo: "201",
+    roomNo: "101",
+    price: "4500",
+    title: "Apartment",
+  };
+
   const similarProperties = [
     {
       id: '1',
@@ -34,391 +44,232 @@ export default function PropertyDetailScreen() {
     {
       id: '3',
       type: 'Studio Room',
-      price: '3500',
+      price: '1500',
       image: 'https://www.transparentpng.com/thumb/apartment/apartment-clipart-hd-14.png',
     },
   ];
-const navigation = useNavigation()
+  const [selectedFlat, setSelectedFlat] = useState("101 (Furnished)");
+  const [open, setOpen] = useState(false);
+
+  const flatOptions = [
+    "Flat No : 101 (Furnished)",
+    "Flat No : 102 (Semi Furnished)",
+    "Flat No : 103 (Full Furnished)",
+    "Flat No : 104 (Furnished)",
+  ];
+
+  const handleSelect = (item: string) => {
+    setSelectedFlat(item);
+    setOpen(false);
+  };
+
   return (
-    <SafeAreaView style={{
-      flex:1,
-      backgroundColor:"white"
-    }}>
+    <SafeAreaView style={{ flex:1, backgroundColor:"white" }}>
       <StatusBarComponent/>
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header Image */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={imageIndex.Shape}
-          style={styles.mainImage}
-        />
-        {/* Header Icons */}
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconBtn} 
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        
+        {/* Header Image */}
+        <View style={styles.imageContainer}>
+          <Image source={imageIndex.Shape} style={styles.mainImage}/>
           
-          onPress={() => navigation.goBack()}
-          >
-            <Image source={imageIndex.backImg} style= {{
-              height:40,
-              width:40,
-              resizeMode:"contain"
-            }}/>
-            {/* <Ionicons name="arrow-back" size={20} color="#000" /> */}
-          </TouchableOpacity>
-          <View style={{ flexDirection: 'row', gap: 10 }}>
-            <TouchableOpacity style={styles.iconBtn} 
-            
-            onPress={() => navigation.goBack()}
-            >
-            <Image source={imageIndex.Share} style= {{
-            height:40,
-              width:40,
-              resizeMode:"contain"
-            }}/>
+          {/* Header Icons */}
+          <View style={styles.headerIcons}>
+            <TouchableOpacity style={styles.iconBtn} onPress={() => navigation.goBack()}>
+              <Image source={imageIndex.backImg} style={{ height:40, width:40, resizeMode:"contain" }}/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconBtn}>
-            <Image source={imageIndex.FavoriteActive} style= {{
-                 height:40,
-              width:40,
-              resizeMode:"contain"
-            }}/>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', gap: 10 }}>
+              <TouchableOpacity style={styles.iconBtn}>
+                <Image source={imageIndex.Share} style={{ height:40, width:40, resizeMode:"contain" }}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconBtn}>
+                <Image source={imageIndex.FavoriteActive} style={{ height:40, width:40, resizeMode:"contain" }}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Small Thumbnails */}
+          <View style={styles.thumbnailContainer}>
+            <Image source={imageIndex.Shape} style={styles.thumbnail} />
+            <Image source={imageIndex.Shape} style={styles.thumbnail} />
+            <Image source={imageIndex.Shape} style={styles.thumbnail} />
+            <Text style={{position:"absolute", bottom:11, color:"white", right:15, fontSize:15}}>+3</Text>
           </View>
         </View>
 
-        {/* Small Thumbnails */}
-        <View style={styles.thumbnailContainer}>
-          <Image            source={imageIndex.Shape}
- style={styles.thumbnail} />
-          <Image           source={imageIndex.Shape}
- style={styles.thumbnail} />
-          <Image           source={imageIndex.Shape}
- style={styles.thumbnail} />
+        {/* Info Section */}
+        <View style={styles.details}>
+          <View style={styles.rowSpace}>
+            <Text allowFontScaling={false} style={styles.title}>
+              {propertyDetails.title}
+            </Text>
+            <Text allowFontScaling={false} style={styles.price}>
+              ₹{propertyDetails.price}/<Text style={styles.subText}>Month</Text>
+            </Text>
+          </View>
 
- <Text style={{
-position:"absolute",
-bottom:11,
-color:"white",
-right:15,
-fontSize:15
- }}>
-  +3</Text>
-        </View>
-      </View>
+          {/* 🔹 Furnishing & Flat/Room No Row */}
+          <View style={styles.rowSpace2}>
+            <View style={styles.row}>
+              <Text style={styles.tag}>Furnished</Text>
+            </View>
+            <View style={styles.row}>
+              <Text allowFontScaling={false} style={[styles.tag, { fontSize:14, color:"black" }]}>
+                Only for Boys
+              </Text>
+            </View>
+          </View>
 
-      {/* Info Section */}
-      <View style={styles.details}>
-        <View style={styles.rowSpace}>
-          <Text             allowFontScaling={false}
- style={styles.title}>Apartment</Text>
-          <Text              allowFontScaling={false}
-style={styles.price}>₹4500/<Text style={styles.subText}>Month</Text></Text>
-        </View>
-<View style={{
-  flexDirection:"row",
-  alignItems:"center",
-  justifyContent:"space-between" ,
-  marginTop:11,
-  marginBottom:11,
- 
-}}>
-        <View style={styles.row}>
-          {/* <Image  style={{
-            height:11,
-            width:11,
-            resizeMode:"contain"t
-          }} source={imageIndex.prfoielImg}/> */}
-          <Text style={[styles.tag,{
-           }]}>Only for Boys</Text>
-         
-        </View>
-        <View style={styles.row}>
-        <Text    
-        
-                     onPress={()=>navigation.navigate(ScreenNameEnum.CalendarScreen)}
+          <View style={{ borderBottomWidth:1.5, borderColor:"#ECEDF3" }}/>
 
-        allowFontScaling={false}
-style={[styles.tag,{ fontSize:14, color:"black"}]}>2024 ⇅</Text>
-        </View>
-        </View>
-        <View style={{
- 
- 
-  borderBottomWidth:1.5,
-  borderColor:"#ECEDF3"
-}}/>
-    
-        <View
-  style={{
-    backgroundColor: "#F5F4F8",
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding:25,
-     borderRadius: 20,
-     marginTop:11
- 
-  
-    }}
->
-  <Image
-    source={imageIndex.slef}
-    style={{
-      height: 22,
-      width: 22,
-      resizeMode: "contain",
-     }}
-  />
-  <Text
-              allowFontScaling={false}
-
-    style={{
-      fontSize: 14,
-      color: 'black',
-      fontWeight:"600",
-      marginLeft:11
-    }}
-  >
-    Similar Properties
-  </Text>
-</View>
-
-        {/* Features */}
-        <Text              allowFontScaling={false}
-style={styles.sectionTitle}>Features</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
-  {[1,2].map((item, index) => (
-    <View key={index} style={styles.featureRow}>
-      <View style={styles.featureBox}>
-        <Image 
-          source={imageIndex.carrHome} 
-          style={{
-            height:25,
-            width:25,
-            resizeMode:"cover"
-          }} 
+          {/* Similar Properties Info Box */}
+             <View>
+      {/* Main Box */}
+      <TouchableOpacity
+        style={styles.infoBox}
+        onPress={() => setOpen(!open)}
+        activeOpacity={0.7}
+      >
+        <Image
+          source={imageIndex.slef}
+          style={{ height: 22, width: 22, resizeMode: "contain" }}
         />
-        <Text              allowFontScaling={false}
-style={styles.featureText}>2 Bedroom</Text>
-      </View>
-    </View>
-  ))}
-</ScrollView>
-
-        {/* Amenities */}
-        <Text             allowFontScaling={false}
- style={styles.sectionTitle}>Amenities</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
-  {[1,2].map((item, index) => (
-    <View key={index} style={styles.featureRow}>
-      <View style={[styles.featureBox,{
- 
-      }]}>
-        <Image 
-          source={imageIndex.carrHome} 
+        <Text
+          allowFontScaling={false}
           style={{
-            height:25,
-            width:25,
-            resizeMode:"cover"
-          }} 
+            fontSize: 14,
+            color: "black",
+            fontWeight: "600",
+            marginLeft: 11,
+            flex: 1,
+          }}
+        >
+          {selectedFlat}
+        </Text>
+        <Image
+          source={imageIndex.arrowDown}
+          style={{
+            height: 22,
+            width: 22,
+            resizeMode: "contain",
+            transform: [{ rotate: open ? "180deg" : "0deg" }],
+          }}
         />
-        <Text             allowFontScaling={false}
- style={styles.featureText}>Parking</Text>
-      </View>
+      </TouchableOpacity>
+
+      {/* Dropdown List */}
+      {open && (
+        <View style={styles.dropdown}>
+          <FlatList
+            data={flatOptions}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.option}
+                onPress={() => handleSelect(item)}
+              >
+                <Text style={styles.optionText}>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      )}
     </View>
-  ))}
-</ScrollView>
-
-<Text
-    style={{
-      fontSize: 14,
-      color: 'black',
-      fontWeight:"800",
-      marginTop:20 ,
-      marginBottom:15
-     }}
-  >
-    Similar Properties
-  </Text>
-        {/* Similar Properties */}
-    
-
-        <SimilarProperties data={similarProperties} />
 
 
-      </View>
+          {/* Features */}
+          <Text allowFontScaling={false} style={styles.sectionTitle}>Features</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {[1,2].map((item, index) => (
+              <View key={index} style={styles.featureRow}>
+                <View style={styles.featureBox}>
+                  <Image source={imageIndex.carrHome} style={{ height:25, width:25, resizeMode:"cover" }}/>
+                  <Text allowFontScaling={false} style={styles.featureText}>2 Bedroom</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+
+          {/* Amenities */}
+          <Text allowFontScaling={false} style={styles.sectionTitle}>Amenities</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {["Cttv","Parking","Cameras"].map((item, index) => (
+              <View key={index} style={styles.featureRow}>
+                <View style={styles.featureBox}>
+                  <Image source={imageIndex.carrHome} style={{ height:15, width:15, resizeMode:"contain" }}/>
+                  <Text allowFontScaling={false} style={styles.featureText}>{item}</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+
+          <Text style={{ fontSize:14, color:'black', fontWeight:"800", marginTop:20, marginBottom:15 }}>
+            Similar Properties
+          </Text>
+
+          {/* Similar Properties */}
+          <SimilarProperties data={similarProperties} />
+        </View>
+      </ScrollView>
 
       {/* Bottom Button */}
-  
-  
-    </ScrollView>
-    <View style={{ marginBottom: 12,marginHorizontal:15 }}>
+      <View style={{ marginBottom: 12, marginHorizontal:15 }}>
+        <CustomButton
+          title={"Schedule Visit Now"}
+          // onPress={() => navigation.navigate(ScreenNameEnum.ScheduleVisit)}
+                    onPress={() => navigation.navigate(ScreenNameEnum.CalendarScreen)}
 
-<CustomButton
-            title={"Schedule Visit Now"}
-             onPress={()=>navigation.navigate(ScreenNameEnum.ScheduleVisit)}
-            //  onPress={()=>navigation.navigate(ScreenNameEnum.TabNavigator)}
-          />
-          </View>
+        />
+      </View>
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  imageContainer: {
-    position: 'relative',
-  },
-  mainImage: {
-    width: '100%',
-    height: 400,
-   },
+  container: { flex: 1, backgroundColor: '#fff' },
+  imageContainer: { position: 'relative' },
+  mainImage: { width: '100%', height: 400 },
   headerIcons: {
-    position: 'absolute',
-    top: 10,
-    left: 12,
-    right: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    position: 'absolute', top: 10, left: 12, right: 12,
+    flexDirection: 'row', justifyContent: 'space-between',
   },
-  iconBtn: {
-     padding: 8,
-    borderRadius: 20,
-   },
-  thumbnailContainer: {
-    position: 'absolute',
-    right: 15,
-    bottom: 15,
-    gap: 10,
-  },
-  thumbnail: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#2EACB9',
-  },
-  details: {
-    padding: 20,
-    paddingTop: 30,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'center',
-  },
-  rowSpace: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-
-  scrollContainer: {
+  iconBtn: { padding: 8, borderRadius: 20 },
+  thumbnailContainer: { position: 'absolute', right: 15, bottom: 15, gap: 10 },
+  thumbnail: { width: 50, height: 50, borderRadius: 10, borderWidth: 2, borderColor: '#2EACB9' },
+  details: { padding: 20, paddingTop: 30 },
+  row: { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  rowSpace: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  rowSpace2: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 11, marginBottom: 11 },
+  title: { fontSize: 18, fontWeight: '600' },
+  price: { fontSize: 20, fontWeight: '700', color: '#2EACB9' },
+  subText: { fontWeight: '400', fontSize: 14 },
+  tag: { backgroundColor: '#e0f7ff', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, fontSize: 13 },
+ 
+  sectionTitle: { marginTop: 20, marginBottom: 10, fontSize: 16, fontWeight: '600' },
+  featureRow: { flexDirection:'row', alignItems:"center", justifyContent:"center" },
+  featureBox: { backgroundColor: '#F5F4F8', padding: 15, borderRadius: 25, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginLeft:2 },
+  featureText: { fontSize: 12, color: '#333', textAlign: 'center', marginLeft:10 },
+    infoBox: {
+     alignItems: "center",
+    
     paddingHorizontal: 10,
-    marginVertical: 10,
+      backgroundColor: "#F5F4F8", flexDirection: 'row',  
+    padding:25, borderRadius: 20, marginTop:11
   },
-  featureRow: {
-     flexDirection:'row',
-    alignItems:"center",
-    justifyContent:"center"
+  dropdown: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    marginTop: 5,
+    backgroundColor: "#fff",
+    maxHeight: 150,
   },
-  featureBox: {
-    backgroundColor: '#F5F4F8',
-    padding: 15,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    marginLeft:2
-    // for Android shadow
-   },
-  featureIcon: {
-    height: 24,
-    width: 24,
-    resizeMode: 'contain',
-    marginBottom: 8,
+  option: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
-  featureText: {
-    fontSize: 12,
-    color: '#333',
-    textAlign: 'center',
-    marginLeft:10
+  optionText: {
+    fontSize: 14,
+    color: "black",
   },
 
-  price: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#2EACB9',
-  },
-  subText: {
-    fontWeight: '400',
-    fontSize: 14,
-  },
-  tag: {
-    backgroundColor: '#e0f7ff',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    fontSize: 13,
-  },
-  tagSecondary: {
-    backgroundColor: '#f0f0f0',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    fontSize: 13,
-  },
-  sectionTitle: {
-    marginTop: 20,
-    marginBottom: 10,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  
-  similarCard: {
-    width: 250,
-    borderRadius: 15,
-    backgroundColor: '#f5f5f5',
-    marginRight: 15,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  similarImage: {
-    width: '100%',
-    height: 130,
-    borderRadius: 10,
-  },
-  similarType: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#00A8FF', // light blue color matching the card
-  },
-  similarPrice: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#555',
-    marginTop: 4,
-  },
-  button: {
-    backgroundColor: '#00aaff',
-    margin: 20,
-    padding: 16,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 16,
-  },
 });

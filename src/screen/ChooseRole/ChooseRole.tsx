@@ -263,22 +263,7 @@ const ChooseRole = () => {
         </Text>
 
         {/* Renter Option */}
-        <TouchableOpacity
-          style={[
-            styles.optionBox,
-            selectedRole === 'renter' && styles.selectedBox,
-          ]}
-          onPress={() => handleRoleSelect('renter')}
-        >
-          <Text
-            style={[
-              styles.optionText,
-              selectedRole === 'renter' && styles.selectedText,
-            ]}
-          >
-            🏠 Rent your Property
-          </Text>
-        </TouchableOpacity>
+       
 
         {/* Seeker Option */}
         <TouchableOpacity
@@ -295,6 +280,22 @@ const ChooseRole = () => {
             ]}
           >
             🧍‍♂️ Looking for Property
+          </Text>
+        </TouchableOpacity>
+         <TouchableOpacity
+          style={[
+            styles.optionBox,
+            selectedRole === 'renter' && styles.selectedBox,
+          ]}
+          onPress={() => handleRoleSelect('renter')}
+        >
+          <Text
+            style={[
+              styles.optionText,
+              selectedRole === 'renter' && styles.selectedText,
+            ]}
+          >
+            🏠 Rent your Property
           </Text>
         </TouchableOpacity>
       </ScrollView>

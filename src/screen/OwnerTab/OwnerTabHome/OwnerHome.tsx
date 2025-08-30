@@ -152,7 +152,7 @@ export default function OwnerHome() {
 
          style={styles.fab}
           onPress={()=>{
-            navigation.navigate(ScreenNameEnum.PropertyFormScreen)
+            navigation.navigate(ScreenNameEnum.Ownerocations)
           }}
           >
       <Text  allowFontScaling={false} style={styles.fabText}>+</Text>

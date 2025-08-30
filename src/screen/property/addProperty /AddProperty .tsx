@@ -5,6 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  TouchableHighlight,
+  Platform,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import TextInputField from '../../../utils/TextInputField';
@@ -15,6 +17,7 @@ import StatusBarComponent from '../../../compoent/StatusBarCompoent';
 import CustomHeader from '../../../compoent/CustomHeader';
 import imageIndex from '../../../assets/imageIndex';
 import ScreenNameEnum from '../../../routes/screenName.enum';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddProperty = () => {
   const [name, setName] = useState('');
@@ -31,12 +34,50 @@ const AddProperty = () => {
     longitudeDelta: 0.01,
   };
 
+  // Separate state for date & time pickers
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+
+  // Date Change Handler
+  const onDateChange = (event: any, selectedDate?: Date) => {
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+    if (event.type === 'set' && selectedDate) {
+      const day = selectedDate.getDate();
+      const month = selectedDate.getMonth() + 1;
+      const year = selectedDate.getFullYear();
+      const formattedDate = `${day < 10 ? '0' + day : day}/${
+        month < 10 ? '0' + month : month
+      }/${year}`;
+      setDate(formattedDate);
+    }
+  };
+
+  // Time Change Handler
+  const onTimeChange = (event: any, selectedDate?: Date) => {
+    if (Platform.OS === 'android') {
+      setShowTimePicker(false);
+    }
+    if (event.type === 'set' && selectedDate) {
+      let hours = selectedDate.getHours();
+      let minutes = selectedDate.getMinutes();
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12; // 12-hour format
+      const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
+      setTime(formattedTime);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBarComponent />
       <CustomHeader imageSource={imageIndex.backImg} label="Add Property" />
 
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Title */}
         <Text style={styles.title}>Share your Details</Text>
 
@@ -56,43 +97,77 @@ const AddProperty = () => {
           keyboardType="decimal-pad"
         />
 
-        <TextInputField
-          placeholder="Select Meeting Date"
-          value={date}
-          onChangeText={setDate}
-          firstLogo={false}
-        />
+        {/* Date Picker Field */}
+        <TouchableHighlight
+          onPress={() => setShowDatePicker(true)}
+          activeOpacity={0.8}
+        >
+          <TextInputField
+            placeholder="Select Meeting Date"
+            text={date}
+            firstLogo={false}
+            editable={false}
+          />
+        </TouchableHighlight>
 
-        <TextInputField
-          placeholder="Select Meeting Time"
-          value={time}
-          onChangeText={setTime}
-          firstLogo={false}
-        />
+        {/* Time Picker Field */}
+        <TouchableHighlight
+          onPress={() => setShowTimePicker(true)}
+          activeOpacity={0.8}
+        >
+          <TextInputField
+            placeholder="Select Meeting Time"
+            text={time}
+            editable={false}
+            firstLogo={false}
+          />
+        </TouchableHighlight>
+
+        {/* Date Picker Modal */}
+        {showDatePicker && (
+          <DateTimePicker
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            value={new Date()}
+            onChange={onDateChange}
+          />
+        )}
+
+        {/* Time Picker Modal */}
+        {showTimePicker && (
+          <DateTimePicker
+            mode="time"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            value={new Date()}
+            onChange={onTimeChange}
+          />
+        )}
 
         {/* Location Section */}
-        <Text style={[styles.subtitle,{
-          marginTop:10
-        }]}>Where is the location?</Text>
-<View style={{
-  flexDirection:"row",
-  alignItems:"center",
-  justifyContent:"center",
-  marginBottom:12
-}}>
-  <Image source={imageIndex.Location} style={{
-  height:22,
-  width:22,
-  resizeMode:"none"
-}}/>
-  <Text style={[styles.locationText,{
-    marginLeft:10,
-
-  }]}>
-          Jl. Cisangkuy, Citarum, Kec. Bandung Wetan, Kota Bandung, Jawa Barat 40115
+        <Text style={[styles.subtitle, { marginTop: 10 }]}>
+          Where is the location?
         </Text>
-</View>
-      
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 12,
+          }}
+        >
+          <Image
+            source={imageIndex.Location}
+            style={{
+              height: 22,
+              width: 22,
+              resizeMode: 'contain',
+            }}
+          />
+          <Text style={[styles.locationText, { marginLeft: 10 }]}>
+            Jl. Cisangkuy, Citarum, Kec. Bandung Wetan, Kota Bandung, Jawa Barat
+            40115
+          </Text>
+        </View>
 
         <View style={styles.mapContainer}>
           <MapView style={styles.map} initialRegion={location}>

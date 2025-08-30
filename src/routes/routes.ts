@@ -33,6 +33,7 @@ import AccountRemoveSuccess from "../screen/OwnerTab/OwnerTabHome/AccountRemoveS
 import ProfileSettingOwner from "../screen/OwnerTab/OwnerTabHome/ProfileSettingOwner/ProfileSettingOwner";
 import PropertyDetailOwner from "../screen/OwnerTab/OwnerTabHome/PropertyDetailOwner/PropertyDetailOwner";
 import CalendarScreen from "../screen/CalendarScreen";
+import Ownerocations from "../Ownerocations/Ownerocations";
 
 const useAuth = () => {
   return useSelector((state: any) => state?.auth);
@@ -71,6 +72,8 @@ const _routes = () => {
       { name: ScreenNameEnum.OwnerNavigator , Component: OwnerNavigator  },
       { name: ScreenNameEnum.PropertyFormScreen , Component: PropertyFormScreen  },
             { name: ScreenNameEnum.CalendarScreen , Component: CalendarScreen  },
+
+            { name: ScreenNameEnum.Ownerocations , Component: Ownerocations  },
 
             { name: ScreenNameEnum.PropertyDetailOwner , Component: PropertyDetailOwner  },
 

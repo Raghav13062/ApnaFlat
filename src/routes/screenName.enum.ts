@@ -14,6 +14,7 @@
     PropertyDetailScreen="PropertyDetailScreen",
     AccountRemoveSuccess="AccountRemoveSuccess",
     OtpScreen="OtpScreen",
+    Ownerocations="Ownerocations",
      OwnerNavigator="OwnerNavigator",
      CalendarScreen="CalendarScreen",
     AddProperty ="AddProperty",

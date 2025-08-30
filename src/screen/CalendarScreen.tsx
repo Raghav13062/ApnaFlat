@@ -11,6 +11,8 @@ import {
 import { Calendar } from "react-native-calendars";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CustomHeader from "../compoent/CustomHeader";
+import imageIndex from "../assets/imageIndex";
 
 const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(""); // for calendar highlight
@@ -65,6 +67,8 @@ const CalendarScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+              <CustomHeader imageSource={imageIndex.backImg} label={"Calendar"}/>
+
       {/* Calendar */}
       <Calendar
         onDayPress={handleCalendarSelect}
